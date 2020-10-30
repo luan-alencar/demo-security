@@ -15,7 +15,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/webjars/**", "/css/**", "/image/**","/js/**").permitAll()
 				.antMatchers("/", "/home")
 				.permitAll() // este metodo vai tornar public essas uri q eu colocar seguidas por ele
-				.anyRequest().authenticated();
+				.anyRequest().authenticated()
+				.and()
+					.formLogin()
+					.loginPage("/login")
+					.defaultSuccessUrl("/", true)
+					.failureUrl("/login-error") // indica qual a URI em caso de falha
+					.permitAll() // todo usuario mesmo o que n esta logado ele tem q ter permissao para acessar a pag d login e de erro
+				.and() // parte referente ao logout
+					.logout() // vai dizer para onde este metodo tem que me direcionar apos o logout
+					.logoutSuccessUrl("/");
 		
 	}
 
