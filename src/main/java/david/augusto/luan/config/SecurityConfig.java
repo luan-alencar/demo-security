@@ -47,7 +47,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 																						// pag d login e de erro
 			.and() // parte referente ao logout
 				.logout() // vai dizer para onde este metodo tem que me direcionar apos o logout
-				.logoutSuccessUrl("/");
+				.logoutSuccessUrl("/")
+			.and()
+				.exceptionHandling()
+				.accessDeniedPage("/acesso-negado");
 
 	}
 
