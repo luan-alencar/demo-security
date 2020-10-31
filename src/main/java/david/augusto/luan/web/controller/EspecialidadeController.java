@@ -17,12 +17,12 @@ public class EspecialidadeController {
 	@Autowired
 	private EspecialidadeService service;
 
-	@GetMapping
+	@GetMapping({"", "/" })
 	public String abrirEspecialidades(Especialidade especialidade) {
-		
+
 		return "especialidade/especialidade";
 	}
-	
+
 	@PostMapping("/salvar")
 	public String salvar(Especialidade especialdidade, RedirectAttributes attr) {
 		service.salvar(especialdidade);
