@@ -36,8 +36,11 @@ public class UsuarioService implements UserDetailsService {
 																								// formulario
 		Usuario usuario = buscarPorEmail(username);
 		// User e uma classe do spring que implementa UserDetaisl
-		return new User(usuario.getEmail(), usuario.getSenha(),
-				AuthorityUtils.createAuthorityList(getAuthorities(usuario.getPerfis())));
+		return new User(
+				usuario.getEmail(), 
+				usuario.getSenha(),
+				AuthorityUtils.createAuthorityList(getAuthorities(usuario.getPerfis()))
+			);
 	}
 
 	private String[] getAuthorities(List<Perfil> perfis) {
