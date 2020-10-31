@@ -1,31 +1,43 @@
 package david.augusto.luan.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import david.augusto.luan.service.UsuarioService;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+	@Autowired
+	public UsuarioService service;
+
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
+		auth.userDetailsService(service).passwordEncoder(new BCryptPasswordEncoder()); // a criptografia
+																						// BCryptPasswordEncoder e a
+																						// mais segura para senha
+	}
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		// atraves desse metodo a gnt inicia as configurações referente 
-				// ao que vai ter acesso ou nao na nossa aplicacao
-				http.authorizeRequests()
-				.antMatchers("/webjars/**", "/css/**", "/image/**","/js/**").permitAll()
-				.antMatchers("/", "/home")
-				.permitAll() // este metodo vai tornar public essas uri q eu colocar seguidas por ele
-				.anyRequest().authenticated()
-				.and()
-					.formLogin()
-					.loginPage("/login")
-					.defaultSuccessUrl("/", true)
-					.failureUrl("/login-error") // indica qual a URI em caso de falha
-					.permitAll() // todo usuario mesmo o que n esta logado ele tem q ter permissao para acessar a pag d login e de erro
+		// atraves desse metodo a gnt inicia as configurações referente
+		// ao que vai ter acesso ou nao na nossa aplicacao
+		http.authorizeRequests().antMatchers("/webjars/**", "/css/**", "/image/**", "/js/**").permitAll()
+				.antMatchers("/", "/home").permitAll() // este metodo vai tornar public essas uri q eu colocar seguidas
+														// por ele
+				.anyRequest().authenticated().and().formLogin().loginPage("/login").defaultSuccessUrl("/", true)
+				.failureUrl("/login-error") // indica qual a URI em caso de falha
+				.permitAll() // todo usuario mesmo o que n esta logado ele tem q ter permissao para acessar a
+								// pag d login e de erro
 				.and() // parte referente ao logout
-					.logout() // vai dizer para onde este metodo tem que me direcionar apos o logout
-					.logoutSuccessUrl("/");
-		
+				.logout() // vai dizer para onde este metodo tem que me direcionar apos o logout
+				.logoutSuccessUrl("/");
+
 	}
 
 }
