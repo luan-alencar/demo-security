@@ -27,7 +27,7 @@ public class UsuarioService implements UserDetailsService{
 		return usuarioRepository.findByEmail(email);
 	}
 
-	@Override
+	@Override @Transactional(readOnly = true) // tudo que tiver dentro desse metodo vai ser gerenciado por uma transacao
 	// recebe uma String como argumento e ela vai ser o email q o usuario digitou no formulario	
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Usuario usuario = buscarPorEmail(username);
