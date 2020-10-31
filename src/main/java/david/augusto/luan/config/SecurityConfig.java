@@ -31,6 +31,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/webjars/**", "/css/**", "/image/**", "/js/**").permitAll()
 				.antMatchers("/", "/home").permitAll() // este metodo vai tornar public essas uri q eu colocar seguidas
 													   // por ele
+				
+				// acessos privados admin
+				.antMatchers("/u/**").hasAuthority("ADMIN")
+				// acessos privados medicos
+				.antMatchers("/medicos/**").hasAuthority("MEDICO")
+				
 				.anyRequest().authenticated()
 			.and()
 				.formLogin()
