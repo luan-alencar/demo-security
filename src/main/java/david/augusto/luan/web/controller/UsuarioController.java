@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import david.augusto.luan.domain.Usuario;
 
 @Controller
-@RequestMapping
+@RequestMapping("u")
 public class UsuarioController {
 
 	// abrir cadastro de usuarios (medicos/admin/pacientes/)
