@@ -38,10 +38,4 @@ public class EspecialidadeController {
 		return ResponseEntity.ok(service.buscarEspecialidades(request));
 	}
 	
-	@GetMapping("/datatables/server")
-	public ResponseEntity<?> getEspecialidade(HttpServletRequest request) {
-		return ResponseEntity.ok(service.buscarEspecialidades(request));
-	}
-
-	
 }
