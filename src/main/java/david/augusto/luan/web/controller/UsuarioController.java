@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import david.augusto.luan.domain.Perfil;
+import david.augusto.luan.domain.PerfilTipo;
 import david.augusto.luan.domain.Usuario;
 import david.augusto.luan.service.UsuarioService;
 
@@ -68,19 +69,54 @@ public class UsuarioController {
 				service.salvarUsuario(usuario);
 				redirect.addFlashAttribute("sucesso", "Operação realizada com sucesso!");
 			} catch (DataAccessException e) {
-				redirect.addFlashAttribute("falha",
-						"Cadastro não realizado, email já existente!");
+				redirect.addFlashAttribute("falha", "Cadastro não realizado, email já existente!");
 			}
 
 		}
 		return "redirect:/u/novo/cadastro/usuario"; // vai direcionar ao primeiro metodo
 	}
-	
+
 	// pre edição de credenciais de usuarios
 	@GetMapping("/editar/credenciais/usuario/{id}")
 	public ModelAndView preEditarCredenciais(@PathVariable("id") Long id) {
 
 		return new ModelAndView("usuario/cadastro", "usuario", service.buscarPorId(id));
 	}
-	
+
+	/*
+	 * Pre edição de credenciais de usuarios
+	 * 
+	 * este metodo vai conter duas variaveis : - id : referente ao id do usuario -
+	 * perfisId : do tipo array para long que vai conter um array de perfis
+	 */
+	@GetMapping("/editar/dados/usuario/{id}/perfis/{perfis}")
+	public ModelAndView preEditarCadastroDadosPessoais(@PathVariable("id") Long usuarioId,
+			@PathVariable("perfis") Long perfisId) {
+
+		Usuario us = new Usuario();
+
+		// Eu tenho que ser ADMIN
+		if (us.getPerfis().contains(new Perfil(PerfilTipo.ADMIN.getCod()))
+				// mas não posso ser MEDICO
+				&& !us.getPerfis().contains(new Perfil(PerfilTipo.MEDICO.getCod()))) {
+			// Se o acesso cair nesse IF então o usuario é apenas ADMIN
+			return new ModelAndView("usuario/cadastro", "usuario", us);
+
+			// Basta ele ser apenas medico para cair aqui
+		} else if (us.getPerfis().contains(new Perfil(PerfilTipo.MEDICO.getCod()))) {
+			return new ModelAndView("especialidade/especialidade", "usuario", us); // pagina de especialidade
+
+			// Aqui na parte de paciente nós nao vamos enviar a requisição para a área de
+			// paciente
+		} else if (us.getPerfis().contains(new Perfil(PerfilTipo.PACIENTE.getCod()))) {
+			ModelAndView model = new ModelAndView("error");
+			model.addObject("status", 403); // vai retornar o cod do status
+			model.addObject("error", "Área restrita!");
+			model.addObject("message", "Os dados de pacientes são restritos a ele.");
+			return model;
+		}
+
+		return new ModelAndView("redirect:/u/lista");
+	}
+
 }
