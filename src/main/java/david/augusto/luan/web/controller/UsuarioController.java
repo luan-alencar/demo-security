@@ -67,7 +67,7 @@ public class UsuarioController {
 				redirect.addFlashAttribute("sucesso", "Operação realizada com sucesso!");
 			} catch (DataAccessException e) {
 				redirect.addFlashAttribute("falha",
-						"Operação não pode ser realizada! Paciente não pode ser Admin e/ou Médico");
+						"Cadastro não realizado, email já existente!");
 			}
 
 		}
