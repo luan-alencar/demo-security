@@ -91,9 +91,9 @@ public class UsuarioController {
 	 */
 	@GetMapping("/editar/dados/usuario/{id}/perfis/{perfis}")
 	public ModelAndView preEditarCadastroDadosPessoais(@PathVariable("id") Long usuarioId,
-			@PathVariable("perfis") Long perfisId) {
+			@PathVariable("perfis") Long[] perfisId) {
 
-		Usuario us = new Usuario();
+		Usuario us = service.buscarPorIdEPerfil(usuarioId, perfisId);
 
 		// Eu tenho que ser ADMIN
 		if (us.getPerfis().contains(new Perfil(PerfilTipo.ADMIN.getCod()))
@@ -104,7 +104,7 @@ public class UsuarioController {
 
 			// Basta ele ser apenas medico para cair aqui
 		} else if (us.getPerfis().contains(new Perfil(PerfilTipo.MEDICO.getCod()))) {
-			return new ModelAndView("especialidade/especialidade", "usuario", us); // pagina de especialidade
+			return new ModelAndView("especialidade/especialidade"); // pagina de especialidade
 
 			// Aqui na parte de paciente nós nao vamos enviar a requisição para a área de
 			// paciente
