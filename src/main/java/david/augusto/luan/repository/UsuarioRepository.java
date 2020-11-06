@@ -21,6 +21,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	
 	@Query("select u from Usuario u "
 			+ "join u.perfis p " // usar o IN pq vamos testar uma lista de id's
-			+ "where u.id = :usuarioId% AND p.id IN :perfisId")
+			+ "where u.id = :usuarioId AND p.id IN :perfisId")
 	Usuario findByIdAndPerfil(Long usuarioId, Long[] perfisId);
 }
