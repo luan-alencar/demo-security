@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import david.augusto.luan.domain.Medico;
 import david.augusto.luan.domain.Perfil;
 import david.augusto.luan.domain.PerfilTipo;
 import david.augusto.luan.domain.Usuario;
+import david.augusto.luan.service.MedicoService;
 import david.augusto.luan.service.UsuarioService;
 
 @Controller
@@ -34,6 +36,10 @@ public class UsuarioController {
 
 	@Autowired
 	private UsuarioService service;
+	
+
+	@Autowired
+	private MedicoService serviceMedico;
 
 	// abrir cadastro de usuarios (medicos/admin/pacientes/)
 	@GetMapping("/novo/cadastro/usuario")
@@ -104,6 +110,11 @@ public class UsuarioController {
 
 			// Basta ele ser apenas medico para cair aqui
 		} else if (us.getPerfis().contains(new Perfil(PerfilTipo.MEDICO.getCod()))) {
+			
+			// consulta
+//			Medico medico = 
+			
+			
 			return new ModelAndView("especialidade/especialidade"); // pagina de especialidade
 
 			// Aqui na parte de paciente nós nao vamos enviar a requisição para a área de

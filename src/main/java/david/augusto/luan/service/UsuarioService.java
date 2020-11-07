@@ -62,8 +62,7 @@ public class UsuarioService implements UserDetailsService {
 	public Map<String, Object> buscarTodos(HttpServletRequest request) {
 		datatables.setRequest(request);
 		datatables.setColunas(DatatablesColunas.USUARIOS);
-		Page<Usuario> page = datatables.getSearch().isEmpty() 
-				? usuarioRepository.findAll(datatables.getPageable())
+		Page<Usuario> page = datatables.getSearch().isEmpty() ? usuarioRepository.findAll(datatables.getPageable())
 				: usuarioRepository.findByEmailOrPerfil(datatables.getSearch(), datatables.getPageable());
 
 		return datatables.getResponse(page);
@@ -86,7 +85,10 @@ public class UsuarioService implements UserDetailsService {
 
 	@Transactional(readOnly = true)
 	public Usuario buscarPorIdEPerfil(Long usuarioId, Long[] perfisId) {
-		
-		return usuarioRepository.findByIdAndPerfil(usuarioId, perfisId);
+
+		return usuarioRepository.findByIdAndPerfil(usuarioId, perfisId)
+				// se existir um obj Usuario dentro do Optional ele retorna um obj Usuario desde
+				// que a consulta tenha retornado dados ao usuario
+				.orElseThrow(()-> new UsernameNotFoundException("Usuário não existente"));
 	}
 }
