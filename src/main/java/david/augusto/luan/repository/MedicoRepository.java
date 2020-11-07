@@ -10,7 +10,7 @@ import david.augusto.luan.domain.Medico;
 
 public interface MedicoRepository extends JpaRepository<Medico, Long> {
 
-	@Query("select m from Usuario m where m.usuario.id = :id")
+	@Query("select m from Medico m where m.usuario.id = :id")
 	Optional<Medico> findByUsuarioId(@Param("id") Long id);
 
 }
