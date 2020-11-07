@@ -36,7 +36,6 @@ public class UsuarioController {
 
 	@Autowired
 	private UsuarioService service;
-	
 
 	@Autowired
 	private MedicoService serviceMedico;
@@ -110,12 +109,12 @@ public class UsuarioController {
 
 			// Basta ele ser apenas medico para cair aqui
 		} else if (us.getPerfis().contains(new Perfil(PerfilTipo.MEDICO.getCod()))) {
-			
+
 			// consulta
-//			Medico medico = 
-			
-			
-			return new ModelAndView("especialidade/especialidade"); // pagina de especialidade
+			Medico medico = serviceMedico.buscarPorUsuarioId(usuarioId);
+			return medico.hasNotId()
+					? new ModelAndView("medico/cadastro", "medico", new Medico(new Usuario(usuarioId)))
+					: new ModelAndView("medico/cadastro", "medico", medico);
 
 			// Aqui na parte de paciente nós nao vamos enviar a requisição para a área de
 			// paciente
