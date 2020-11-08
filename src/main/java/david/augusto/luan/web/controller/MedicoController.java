@@ -41,9 +41,6 @@ public class MedicoController {
 	public String editar(Medico medico, RedirectAttributes attr) {
 		service.editar(medico);
 		attr.addFlashAttribute("sucesso", "Operação realizada com sucesso!");
-		// retorna para pag uma variavel medico cm o objeto medico
-		// quando o formulario for re-aberto cm a resposta ele javai estar com o
-		// formulario preenchido
 		attr.addFlashAttribute("medico", medico);
 		return "redirect:/medico/dados";
 	}
