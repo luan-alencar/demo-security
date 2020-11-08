@@ -19,4 +19,15 @@ public class MedicoService {
 		return medicoRepository.findByUsuarioId(id).orElse(new Medico());
 	}
 
+	@Transactional(readOnly = false)
+	public void salvar(Medico medico) {
+		medicoRepository.save(medico);
+		
+	}
+
+	public void editar(Medico medico) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
