@@ -15,7 +15,6 @@ public class MedicoService {
 
 	@Transactional(readOnly = true)
 	public Medico buscarPorUsuarioId(Long id) {
-
 		return medicoRepository.findByUsuarioId(id).orElse(new Medico());
 	}
 
