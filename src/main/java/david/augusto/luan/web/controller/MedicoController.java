@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -25,7 +26,7 @@ public class MedicoController {
 	}
 
 	// salvar medico
-	@GetMapping({ "/salvar" })
+	@PostMapping({ "/salvar" })
 	public String salvar(Medico medico, RedirectAttributes attr) {
 		service.salvar(medico);
 		attr.addFlashAttribute("sucesso", "Operação realizada com sucesso!");
@@ -33,16 +34,16 @@ public class MedicoController {
 		// quando o formulario for re-aberto cm a resposta ele javai estar com o
 		// formulario preenchido
 		attr.addFlashAttribute("medico", medico);
-		return "redirect:/medico/dados";
+		return "redirect:/medicos/dados";
 	}
 
 	// editar medico
-	@GetMapping({ "/editar" })
+	@PostMapping({ "/editar" })
 	public String editar(Medico medico, RedirectAttributes attr) {
 		service.editar(medico);
 		attr.addFlashAttribute("sucesso", "Operação realizada com sucesso!");
 		attr.addFlashAttribute("medico", medico);
-		return "redirect:/medico/dados";
+		return "redirect:/medicos/dados";
 	}
 
 }
