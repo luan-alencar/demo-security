@@ -142,15 +142,15 @@ public class UsuarioController {
 			@RequestParam("senha3") String s3, @AuthenticationPrincipal User user, RedirectAttributes attr) {
 
 		if (!s1.equals(s2)) {
-			attr.addFlashAttribute("falha", "Senhas não conferem, tente novamente");
-			// caso a senha não confere então vai redirecionar a url de editar senha
+			attr.addFlashAttribute("falha", "Senhas não conferem, tente novamente"); // caso a senha não confere então
+																						// vai redirecionar a url de
+																						// editar senha
 			return "redirect:/u/editar/senha";
 		}
 
 		Usuario u = service.buscarPorEmail(user.getUsername());
 		if (!UsuarioService.isSenhaCorreta(s3, u.getSenha())) {
 			attr.addFlashAttribute("falha", "Senha atual não confere, tente novamente");
-			// caso a senha não confere então vai redirecionar a url de editar senha
 			return "redirect:/u/editar/senha";
 		}
 
