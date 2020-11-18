@@ -25,7 +25,7 @@ public class EspecialidadeService {
 	@Autowired
 	private Datatable datatables;
 
-	@Transactional(readOnly = false)
+	@Transactional(readOnly = false) // sempre bom por esta anotação para consultas pois é algo mais profissional
 	public void salvar(Especialidade especialidade) {
 		repository.save(especialidade);
 	}
@@ -57,8 +57,17 @@ public class EspecialidadeService {
 		return repository.findEspecialidadesByTermo(termo);
 	}
 
+	@Transactional(readOnly = true) 
 	public Set<Especialidade> buscarPorTitulos(String[] titulos) {
 		
 		return repository.findByTitulos(titulos);
+	}
+
+	@Transactional(readOnly = true)
+	public Map<String, Object> buscarEspecialidadesPorMedico(Long id, HttpServletRequest request) {
+		datatables.setRequest(request);
+		datatables.setColunas(DatatablesColunas.ESPECIALIDADES);
+		Page<Especialidade> page = repository.findByIdMedico(id, datatables.getPageable());
+		return datatables.getResponse(page);
 	}
 }
