@@ -31,7 +31,7 @@ public class MedicoController {
 		// se ele não tem ID ele clicou no link
 		if (medico.hasNotId()) {
 			medico = service.buscarPorEmail(user.getUsername());
-			model.addAttribute("medico", medico);
+			model.addAttribute("medico", medico);	
 		}
 		return "medico/cadastro";
 	}
