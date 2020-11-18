@@ -89,6 +89,19 @@ public class UsuarioService implements UserDetailsService {
 		return usuarioRepository.findByIdAndPerfil(usuarioId, perfisId)
 				// se existir um obj Usuario dentro do Optional ele retorna um obj Usuario desde
 				// que a consulta tenha retornado dados ao usuario
-				.orElseThrow(()-> new UsernameNotFoundException("Usuário não existente"));
+				.orElseThrow(() -> new UsernameNotFoundException("Usuário não existente"));
+	}
+
+	public static boolean isSenhaCorreta(String senhaDigitada, String senhaArmazenada) {
+
+		return new BCryptPasswordEncoder().matches(senhaDigitada, senhaArmazenada);
+	}
+
+	@Transactional(readOnly = false)
+	public void alterarSenha(Usuario usuario, String senha) {
+		// mudando a senha no objeto usuario
+		usuario.setSenha(new BCryptPasswordEncoder().encode(senha));
+		// passando o objeto usuario já alterada e criptografada 
+		usuarioRepository.save(usuario);
 	}
 }
